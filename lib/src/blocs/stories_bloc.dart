@@ -12,7 +12,7 @@ class StoriesBloc {
   //Getters to the stream. 
   //Anyone who want to access the stream can use the getter function
   Observable<List<int>>  get topIds => _topIds.stream;
-  Observable<Map<int, Future<ItemModel>>> items;
+  Observable<Map<int, Future<ItemModel>>> get items => _itemsOutput.stream;
   Function(int) get fetchItem => _itemsFetcher.sink.add;
 
   /*
