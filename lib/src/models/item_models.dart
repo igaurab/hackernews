@@ -15,16 +15,17 @@ class ItemModel {
   final String title; 
   final int descendants;
 
+// ?? if it is null assign false
   ItemModel.fromJson(Map<String, dynamic> parsedJson)
     : id = parsedJson['id'],
-      deleted = parsedJson['deleted'],
+      deleted = parsedJson['deleted'] ?? false,
       type = parsedJson['type'],
       by = parsedJson['by'],
       time = parsedJson['time'],
-      text = parsedJson['text'],
-      dead = parsedJson['dead'],
+      text = parsedJson['text'] ?? "",
+      dead = parsedJson['dead'] ?? false,
       parent = parsedJson['parent'],
-      kids = parsedJson['kids'],
+      kids = parsedJson['kids'] ?? [],
       url = parsedJson['url'],
       score = parsedJson['score'],
       title = parsedJson['title'],

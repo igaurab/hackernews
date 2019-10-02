@@ -7,12 +7,14 @@ class StoriesBloc {
   //As we are dealing with the top id's for the top news page
   final _repository = new Repository();
   final _topIds = PublishSubject<List<int>>();
-  final _items = BehaviorSubject<int>();
-
+  final _itemsOutput = BehaviorSubject<Map<int,Future<ItemModel>>>();
+  final _itemsFetcher  = PublishSubject<int>()
   //Getters to the stream. 
   //Anyone who want to access the stream can use the getter function
   Observable<List<int>>  get topIds => _topIds.stream;
   Observable<Map<int, Future<ItemModel>>> items;
+  Function(int) get fetchItem => _itemsFetcher.sink.add;
+
   /*
   Problem:
   This is not the best way to do it.
@@ -25,19 +27,15 @@ class StoriesBloc {
   code: get items => _items.stream.transform(_itemsTransformer());
   */
   StoriesBloc() {
-    /*
-    The transform is not applied to our current stream _items, rather the code returns a new stream
-    with the transform property applied to it. We are going to create a reference variable that will hold
-    the reference to the modified item stream.
-    reference: 
-    Observable<Map<int, Future<ItemModel>>> items = ;
-    _items.stream.transform(_itemsTransformer());
-    */
-    items = _items.stream.transform(_itemsTransformer());
+  /* 
+    ItemsFetcher takes the input id of the items we want to fetch
+    and then outputs the cache containing of a map, which maps the item id to the
+    itemModel
+  */
+    _itemsFetcher.stream.transform(_itemsTransformer()).pipe(_itemsOutput);
   }
 
   //Getter to Sinks
-  Function(int) get fetchItem => _items.sink.add;
 
   fetchTopIds() async{
     final ids = await _repository.fetchTopItems();
@@ -55,6 +53,7 @@ class StoriesBloc {
   }
   void dispose() {
     _topIds.close();
-    _items.close();
+    _itemsFetcher.close();
+    _itemsOutput.close();
   }
 }

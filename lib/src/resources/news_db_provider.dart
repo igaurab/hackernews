@@ -67,7 +67,10 @@ class NewsDbProvider implements Source, Cache{
   }
 
   Future<int> addItem(ItemModel itemModel) {
-    return db.insert("Items", itemModel.toMapForDb());
+    return db.insert("Items",
+     itemModel.toMapForDb(),
+     conflictAlgorithm: ConflictAlgorithm.ignore
+     );
   }
 
   Future<List<int>> fetchTopItems(){
