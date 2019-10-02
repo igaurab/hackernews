@@ -78,6 +78,10 @@ class NewsDbProvider implements Source, Cache{
     return null;
   }
 
+   Future<int> clear() async{
+    return await db.delete("Items");
+  }
+
 }
 
 final newsDbProvider = new NewsDbProvider();

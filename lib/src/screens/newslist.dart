@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hackernews/src/app.dart';
 import '../blocs/stories_provider.dart';
 import '../widgets/news_list_tile.dart';
+import "../widgets/refresh.dart";
+
 
 class NewsList extends StatelessWidget {
   @override
@@ -11,8 +13,14 @@ class NewsList extends StatelessWidget {
     print("Inside NewsList");
     return Scaffold(
       appBar: AppBar(
-        title: Text("Top News"),
+        title: Text("Top News",
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
+      
       body: renderTopIds(bloc) ,
     );
   }
@@ -26,14 +34,15 @@ class NewsList extends StatelessWidget {
             child: CircularProgressIndicator() ,
           );
         }
-
-        return ListView.builder(
-          itemCount: snapshot.data.length,
-          itemBuilder: (context, int index) {
-            bloc.fetchItem(snapshot.data[index]);
-            return NewsListTitle(itemId: snapshot.data[index],);
-          },
-        );
+        return Refresh(
+          child: ListView.builder(
+            itemCount: snapshot.data.length,
+            itemBuilder: (context, int index) {
+              bloc.fetchItem(snapshot.data[index]);
+              return NewsListTitle(itemId: snapshot.data[index],);
+            },
+            ),
+          );
       },
     );
   }

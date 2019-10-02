@@ -15,7 +15,7 @@ class NewsListTitle extends StatelessWidget {
       stream: bloc.items,
       builder: (context,AsyncSnapshot<Map<int, Future<ItemModel>>> snapshot) {
         if(!snapshot.hasData) {
-          return Text('Stream Still Loading...');
+          return buidTileLoading();
         }
 
         return FutureBuilder(
@@ -25,12 +25,64 @@ class NewsListTitle extends StatelessWidget {
           //ItemModel
           builder: (context,AsyncSnapshot<ItemModel> itemSnapshot) {
             if(!itemSnapshot.hasData) {
-              return Text("Still lodaing $itemId");
+              return buidTileLoading();
             }
-            return Text(itemSnapshot.data.title);
+            return buidTile(itemSnapshot.data);
           },
         );
       },
     );
+  }
+
+  Widget buidTile(ItemModel item) {
+    return Card(
+      child: ListTile(
+        title: Text(item.title,
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text("${item.score} votes"),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.comment, color: Colors.black),
+            Text("${item.descendants}")
+        ],),
+      ),
+      elevation: 10.0,
+      margin: EdgeInsets.all(10.0)
+    ); 
+  }
+
+   Widget buidTileLoading() {
+    return Card(
+      child: ListTile(
+        title: Container(
+          height: 10.0,
+          width: 40.0,
+          color: Colors.grey[300],
+        ),
+        subtitle: Container(
+          height: 7.0,
+          width: 20.0,
+          color: Colors.grey[300],
+        ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+          height: 10.0,
+          width: 10.0,
+          color: Colors.grey[300],
+        ),
+            Container(
+          height: 5.0,
+          width: 10.0,
+          color: Colors.grey[300],
+        )
+        ],),
+      ),
+      elevation: 10.0,
+      margin: EdgeInsets.all(10.0)
+    ); 
   }
 } 

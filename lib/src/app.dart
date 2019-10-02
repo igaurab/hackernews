@@ -6,11 +6,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoriesProvider(
       child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'HackerNews',
       home: NewsList(),
     )
-    ); 
-    
-    
+    );     
   }
 }
