@@ -8,7 +8,7 @@ class StoriesBloc {
   final _repository = new Repository();
   final _topIds = PublishSubject<List<int>>();
   final _itemsOutput = BehaviorSubject<Map<int,Future<ItemModel>>>();
-  final _itemsFetcher  = PublishSubject<int>()
+  final _itemsFetcher  = PublishSubject<int>();
   //Getters to the stream. 
   //Anyone who want to access the stream can use the getter function
   Observable<List<int>>  get topIds => _topIds.stream;
