@@ -22,7 +22,7 @@ class ItemModel {
       type = parsedJson['type'],
       by = parsedJson['by'],
       time = parsedJson['time'],
-      text = parsedJson['text'] ?? "",
+      text = parsedJson['text'] ?? '',
       dead = parsedJson['dead'] ?? false,
       parent = parsedJson['parent'],
       kids = parsedJson['kids'] ?? [],

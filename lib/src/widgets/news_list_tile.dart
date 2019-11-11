@@ -27,18 +27,22 @@ class NewsListTitle extends StatelessWidget {
             if(!itemSnapshot.hasData) {
               return buidTileLoading();
             }
-            return buidTile(itemSnapshot.data);
+            return buidTile(itemSnapshot.data,context);
           },
         );
       },
     );
   }
 
-  Widget buidTile(ItemModel item) {
+  Widget buidTile(ItemModel item, BuildContext context) {
     return Card(
       child: ListTile(
+        onTap: () {
+          print('${item.id} was tapped');
+          Navigator.pushNamed(context, '/${item.id}');
+        },
         title: Text(item.title,
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold ),
         ),
         subtitle: Text("${item.score} votes"),
         trailing: Column(
